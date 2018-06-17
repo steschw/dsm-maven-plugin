@@ -1,13 +1,13 @@
 package org.sevntu.maven.plugin.dsm;
 
-import java.io.File;
-import java.util.Locale;
-import java.util.ResourceBundle;
-
 import org.apache.maven.doxia.siterenderer.Renderer;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.reporting.AbstractMavenReport;
 import org.apache.maven.reporting.MavenReportException;
+
+import java.io.File;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 /**
  * Initialising DSM plugin.
@@ -49,6 +49,13 @@ public class DsmReportMojo extends AbstractMavenReport {
   private boolean obfuscatePackageNames;
 
   /**
+   * Skip plugin execution completely.
+   *
+   * @parameter expression="${dsm.skip}" default-value="false"
+   */
+  private boolean skip;
+
+  /**
    * @parameter default-value="${project}"
    * @required
    * @readonly
@@ -63,8 +70,8 @@ public class DsmReportMojo extends AbstractMavenReport {
   private Renderer siteRenderer;
 
 
-  public void setObfuscatePackageNames(boolean aObfuscate) {
-    this.obfuscatePackageNames = aObfuscate;
+  public void setObfuscatePackageNames(final boolean aObfuscate) {
+    obfuscatePackageNames = aObfuscate;
   }
 
   @Override
@@ -105,6 +112,13 @@ public class DsmReportMojo extends AbstractMavenReport {
   }
 
   /**
+   * @return {@link #skip}
+   */
+  private boolean isSkip() {
+    return skip;
+  }
+
+  /**
    * Gets the resource bundle for the specified locale.
    *
    * @param aLocale
@@ -118,7 +132,13 @@ public class DsmReportMojo extends AbstractMavenReport {
   @Override
   protected void executeReport(final Locale aLocale)
       throws MavenReportException {
-    DsmReportEngine dsmReport = new DsmReportEngine();
+
+    if (isSkip()) {
+      getLog().info("Skipping plugin execution");
+      return;
+    }
+
+    final DsmReportEngine dsmReport = new DsmReportEngine();
 
     dsmReport.setObfuscatePackageNames(obfuscatePackageNames);
     dsmReport.setSourceDirectory(getSourceDir());
@@ -127,7 +147,7 @@ public class DsmReportMojo extends AbstractMavenReport {
     try {
       dsmReport.report();
     } catch (Exception e) {
-      throw new MavenReportException( "Error in DSM Report generation.", e);
+      throw new MavenReportException("Error in DSM Report generation.", e);
     }
   }
 
