@@ -11,56 +11,56 @@ import org.junit.Test;
 
 public class DsmReportMojoTest extends AbstractMojoTestCase {
 
-	@Test
-	public void testGetDescription() {
-		String description = null;
-		DsmReportMojo dsmReportMojo = new DsmReportMojo();
+  @Test
+  public void testGetDescription() {
+    String description = null;
+    DsmReportMojo dsmReportMojo = new DsmReportMojo();
 
-		description = dsmReportMojo.getDescription(Locale.ENGLISH);
-		assertNotNull(description);
-	}
-
-
-	@Test
-	public void testGetName() {
-		String name = null;
-		DsmReportMojo dsmReportMojo = new DsmReportMojo();
-
-		name = dsmReportMojo.getName(Locale.ENGLISH);
-		assertNotNull(name);
-	}
+    description = dsmReportMojo.getDescription(Locale.ENGLISH);
+    assertNotNull(description);
+  }
 
 
-	@Test
-	public void testGetSiteRenderer() {
-		DsmReportMojo dsmReportMojo = new DsmReportMojo();
-		assertNull(dsmReportMojo.getSiteRenderer());
-	}
+  @Test
+  public void testGetName() {
+    String name = null;
+    DsmReportMojo dsmReportMojo = new DsmReportMojo();
+
+    name = dsmReportMojo.getName(Locale.ENGLISH);
+    assertNotNull(name);
+  }
 
 
-	@Test
-	public void testGetProject() {
-		DsmReportMojo dsmReportMojo = new DsmReportMojo();
-		assertNull(dsmReportMojo.getProject());
-	}
+  @Test
+  public void testGetSiteRenderer() {
+    DsmReportMojo dsmReportMojo = new DsmReportMojo();
+    assertNull(dsmReportMojo.getSiteRenderer());
+  }
 
 
-	@Test
-	public void testDsmReportMojo() throws Exception {
-		Mojo mojo = lookupMojo("dsm", PlexusTestCase.getBasedir()
-				+ "/src/test/resources/report-plugin-config.xml");
+  @Test
+  public void testGetProject() {
+    DsmReportMojo dsmReportMojo = new DsmReportMojo();
+    assertNull(dsmReportMojo.getProject());
+  }
 
-		MavenReport reportMojo = (MavenReport) mojo;
 
-		assertTrue("Should be able to generate a report", reportMojo.canGenerateReport());
+  @Test
+  public void testDsmReportMojo() throws Exception {
+    Mojo mojo = lookupMojo("dsm", PlexusTestCase.getBasedir()
+        + "/src/test/resources/report-plugin-config.xml");
 
-		assertTrue("Should be an externale report", reportMojo.isExternalReport());
+    MavenReport reportMojo = (MavenReport) mojo;
 
-		mojo.execute();
+    assertTrue("Should be able to generate a report", reportMojo.canGenerateReport());
 
-		File outputHtml = new File(reportMojo.getReportOutputDirectory() + File.separator
-				+ "index.html");
-		assertTrue("Test for generated html file " + outputHtml, outputHtml.exists());
-	}
+    assertTrue("Should be an externale report", reportMojo.isExternalReport());
+
+    mojo.execute();
+
+    File outputHtml = new File(reportMojo.getReportOutputDirectory() + File.separator
+        + "index.html");
+    assertTrue("Test for generated html file " + outputHtml, outputHtml.exists());
+  }
 
 }
