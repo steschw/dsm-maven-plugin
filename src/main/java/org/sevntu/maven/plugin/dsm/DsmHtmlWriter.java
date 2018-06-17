@@ -1,5 +1,14 @@
 package org.sevntu.maven.plugin.dsm;
 
+import com.google.common.base.Strings;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import org.hjug.dtangler.core.analysisresult.AnalysisResult;
+import org.hjug.dtangler.core.analysisresult.Violation.Severity;
+import org.hjug.dtangler.core.dsm.Dsm;
+import org.hjug.dtangler.core.dsm.DsmCell;
+import org.hjug.dtangler.core.dsm.DsmRow;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -7,28 +16,19 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.hjug.dtangler.core.analysisresult.AnalysisResult;
-import org.hjug.dtangler.core.analysisresult.Violation.Severity;
-import org.hjug.dtangler.core.dsm.Dsm;
-import org.hjug.dtangler.core.dsm.DsmCell;
-import org.hjug.dtangler.core.dsm.DsmRow;
-
-import com.google.common.base.Strings;
-
-import freemarker.template.Configuration;
-import freemarker.template.Template;
 
 /**
  * Generate site content and write to HTML file.
  * 
  * @author Yuri Balakhonov
  * @author Ilja Dubinin
+ * @author Stefan Schweitzer
  */
-public class DsmHtmlWriter {
+class DsmHtmlWriter {
 
   public final static String FILE_FORMAT = ".html";
   public final static String IMAGE_FOLDER_NAME = "images";
@@ -51,12 +51,14 @@ public class DsmHtmlWriter {
   /**
    * @param aReportSiteDirectory
    */
-  public DsmHtmlWriter(String aReportSiteDirectory, boolean obfuscate) {
+  DsmHtmlWriter(final String aReportSiteDirectory, final boolean obfuscate) {
+
     if (Strings.isNullOrEmpty(aReportSiteDirectory)) {
       throw new IllegalArgumentException(
           "Path to the report directory should not be null or empty");
     }
-    this.obfuscatePackageNames = obfuscate;
+
+    obfuscatePackageNames = obfuscate;
     reportSiteDirectory = aReportSiteDirectory;
 
     new File(reportSiteDirectory).mkdirs();
@@ -68,17 +70,17 @@ public class DsmHtmlWriter {
    * @return
    * @throws Exception
    */
-  private static ByteArrayOutputStream renderTemplate(Map<String, Object> aDataModel,
-      String aTemplateName)
+  private static ByteArrayOutputStream renderTemplate(final Map<String, Object> aDataModel,
+      final String aTemplateName)
       throws Exception {
 
-    Configuration cfg = new Configuration();
+    final Configuration cfg = new Configuration();
     cfg.setClassForTemplateLoading(DsmHtmlWriter.class, File.separator + "templates");
 
-    Template tpl = cfg.getTemplate(aTemplateName);
+    final Template tpl = cfg.getTemplate(aTemplateName);
 
-    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-    Writer outputStreamWriter = new OutputStreamWriter(outputStream);
+    final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+    final Writer outputStreamWriter = new OutputStreamWriter(outputStream);
 
     tpl.process(aDataModel, outputStreamWriter);
     return outputStream;
@@ -89,13 +91,14 @@ public class DsmHtmlWriter {
    * @param aFileName
    * @throws Exception
    */
-  private void writeStreamToFile(ByteArrayOutputStream byteOutputStream, String aFileName)
+  private void writeStreamToFile(final ByteArrayOutputStream byteOutputStream, final String aFileName)
       throws Exception {
-    String filePath = reportSiteDirectory + File.separator + aFileName + FILE_FORMAT;
 
-    OutputStream outputStream = new FileOutputStream(filePath);
-    outputStream.write(byteOutputStream.toByteArray());
-    outputStream.close();
+    final String filePath = reportSiteDirectory + File.separator + aFileName + FILE_FORMAT;
+
+    try (final OutputStream outputStream = new FileOutputStream(filePath)) {
+      outputStream.write(byteOutputStream.toByteArray());
+    }
   }
 
   /**
@@ -106,18 +109,21 @@ public class DsmHtmlWriter {
    */
   public void printDsmPackagesNavigation(final List<String> aPackageNames)
       throws Exception {
+
     if (aPackageNames == null) {
       throw new IllegalArgumentException("List of package names should not be null");
     }
 
-    Map<String, Object> dataModel = new HashMap<>();
+    aPackageNames.sort(Comparator.naturalOrder());
+
+    final Map<String, Object> dataModel = new HashMap<>();
     dataModel.put("aPackageNames", aPackageNames);
 
     writeModelToFile("packages", FTL_PACKAGES_MENU, dataModel);
 
-    ByteArrayOutputStream outputStream = renderTemplate(dataModel, FTL_PACKAGES_MENU);
-    writeStreamToFile(outputStream, "packages");
-    outputStream.close();
+    try (final ByteArrayOutputStream outputStream = renderTemplate(dataModel, FTL_PACKAGES_MENU)) {
+      writeStreamToFile(outputStream, "packages");
+    }
   }
 
   /**
@@ -133,6 +139,7 @@ public class DsmHtmlWriter {
   public void printDsm(final Dsm aDsm, final AnalysisResult aAnalysisResult, final String aName,
       final String templateName)
       throws Exception {
+
     if (aDsm == null) {
       throw new IllegalArgumentException("DSM structure should not be null");
     }
@@ -143,29 +150,29 @@ public class DsmHtmlWriter {
       throw new IllegalArgumentException("Title of DSM should not be empty");
     }
 
-    List<DsmRowModel> dsmRowsData = new ArrayList<DsmRowModel>();
-    List<String> names = new ArrayList<String>();
-    int[] numberOfClassesInPackage = new int[aDsm.getRows().size()];
+    final List<DsmRowModel> dsmRowsData = new ArrayList<>();
+    final List<String> names = new ArrayList<>();
+    final int[] numberOfClassesInPackage = new int[aDsm.getRows().size()];
 
     for (int packageIndex = 0; packageIndex < aDsm.getRows().size(); packageIndex++) {
-      DsmRow dsmRow = aDsm.getRows().get(packageIndex);
+      final DsmRow dsmRow = aDsm.getRows().get(packageIndex);
 
-      String packageName = dsmRow.getDependee().getDisplayName();
+      final String packageName = dsmRow.getDependee().getDisplayName();
       names.add(packageName);
       numberOfClassesInPackage[packageIndex] = dsmRow.getDependee().getContentCount();
 
-      String truncatedPackageName = truncatePackageName(packageName, 20);
-      List<String> dependenciesNumbers = new ArrayList<String>();
-      for (DsmCell dep : dsmRow.getCells()) {
+      final String truncatedPackageName = truncatePackageName(packageName, 20);
+      final List<String> dependenciesNumbers = new ArrayList<>();
+      for (final DsmCell dep : dsmRow.getCells()) {
         dependenciesNumbers.add(formatDependency(dep, aAnalysisResult));
       }
 
-      DsmRowModel rowData = new DsmRowModel(packageIndex + 1, packageName,
+      final DsmRowModel rowData = new DsmRowModel(packageIndex + 1, packageName,
           truncatedPackageName, dependenciesNumbers);
       dsmRowsData.add(rowData);
     }
 
-    Map<String, Object> dataModel = new HashMap<String, Object>();
+    final Map<String, Object> dataModel = new HashMap<>();
     dataModel.put("title", aName);
     dataModel.put("rows", dsmRowsData);
     dataModel.put("names", names);
@@ -180,10 +187,13 @@ public class DsmHtmlWriter {
    * @param aDataModel
    * @throws Exception
    */
-  private void writeModelToFile(String aFileName, String aTemplateName, Map<String, Object> aDataModel) throws Exception {
-    ByteArrayOutputStream outputStream = renderTemplate(aDataModel, aTemplateName);
-    writeStreamToFile(outputStream, aFileName);
-    outputStream.close();
+  private void writeModelToFile(final String aFileName, final String aTemplateName,
+      final Map<String, Object> aDataModel)
+      throws Exception {
+
+    try (final ByteArrayOutputStream outputStream = renderTemplate(aDataModel, aTemplateName)) {
+      writeStreamToFile(outputStream, aFileName);
+    }
   }
 
   /**
@@ -210,13 +220,13 @@ public class DsmHtmlWriter {
     return dependencyType;
   }
 
-  private String truncatePackageName(String name, int length) {
+  private String truncatePackageName(final String name, final int length) {
     String truncatedName = name;
     if (obfuscatePackageNames) {
-      String[] nameTokens = name.split("\\.");
+      final String[] nameTokens = name.split("\\.");
       for (int numberOfToken = 0; numberOfToken < nameTokens.length
           && truncatedName.length() > length; numberOfToken++) {
-        String currentToken = nameTokens[numberOfToken];
+        final String currentToken = nameTokens[numberOfToken];
         truncatedName = truncatedName.replace(currentToken + ".", currentToken.substring(0, 1) + ".");
       }
     } else {
