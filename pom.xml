@@ -233,7 +233,7 @@
 
 
         <profile>
-            <!-- that is required to suppress javadoc genration problem by java8
+            <!-- that is required to suppress javadoc generation problem by java8
                  "error: unknown tag: goal [ERROR] * @goal dsm" -->
             <id>doclint-java8-disable</id>
             <activation>

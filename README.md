@@ -2,7 +2,7 @@
 [![][mavenbadge img]][mavenbadge]
 
 
-Maven plugin to create HTML report to show dependecies in [DSM view](http://en.wikipedia.org/wiki/Design_structure_matrix).
+Maven plugin to create HTML report to show dependencies in [DSM view](http://en.wikipedia.org/wiki/Design_structure_matrix).
 
 We use [Dtangler](https://github.com/sysart/dtangler) library to generate DSM matrix.
 

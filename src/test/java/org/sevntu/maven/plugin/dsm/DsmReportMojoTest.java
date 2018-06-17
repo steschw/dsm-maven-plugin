@@ -54,7 +54,7 @@ public class DsmReportMojoTest extends AbstractMojoTestCase {
 
     assertTrue("Should be able to generate a report", reportMojo.canGenerateReport());
 
-    assertTrue("Should be an externale report", reportMojo.isExternalReport());
+    assertTrue("Should be an external report", reportMojo.isExternalReport());
 
     mojo.execute();
 

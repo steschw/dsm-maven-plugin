@@ -77,11 +77,11 @@ public class DsmHtmlWriter {
 
     Template tpl = cfg.getTemplate(aTemplateName);
 
-    ByteArrayOutputStream outputStrem = new ByteArrayOutputStream();
-    Writer outputStreamWriter = new OutputStreamWriter(outputStrem);
+    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+    Writer outputStreamWriter = new OutputStreamWriter(outputStream);
 
     tpl.process(aDataModel, outputStreamWriter);
-    return outputStrem;
+    return outputStream;
   }
 
   /**

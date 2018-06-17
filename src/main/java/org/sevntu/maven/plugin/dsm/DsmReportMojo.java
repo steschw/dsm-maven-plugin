@@ -100,7 +100,7 @@ public class DsmReportMojo extends AbstractMavenReport {
   /**
    * @return project output directory
    */
-  private String getSourseDir() {
+  private String getSourceDir() {
     return outputDirectory.getAbsolutePath();
   }
 
@@ -121,7 +121,7 @@ public class DsmReportMojo extends AbstractMavenReport {
     DsmReportEngine dsmReport = new DsmReportEngine();
 
     dsmReport.setObfuscatePackageNames(obfuscatePackageNames);
-    dsmReport.setSourceDirectory(getSourseDir());
+    dsmReport.setSourceDirectory(getSourceDir());
     dsmReport.setOutputDirectory(getOutputDirectory());
 
     try {

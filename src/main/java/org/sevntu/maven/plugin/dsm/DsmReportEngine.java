@@ -109,7 +109,7 @@ public class DsmReportEngine {
    * @param aDsm
    *            Dsm
    * @param aRow
-   *            Index of row wich analysing
+   *            Index of row which analysing
    * @return Set of Dependables
    */
   private static Set<Dependable> getDependablesByRowIndex(final Dsm aDsm, final int aRow) {
@@ -119,7 +119,7 @@ public class DsmReportEngine {
   }
 
   /**
-   * Analisyng dependencies by arguments
+   * Analysing dependencies by arguments
    *
    * @param aArguments
    *            Arguments
