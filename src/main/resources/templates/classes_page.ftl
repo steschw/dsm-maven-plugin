@@ -1,15 +1,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-    <title></title>
+    <title>${title}</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="ROBOTS" content="index,follow" />
-    <meta name="TITLE" content="" />
+    <meta name="TITLE" content="${title}" />
     <meta name="DESCRIPTION" content="" />
     <meta name="KEYWORDS" content="" />
     <meta name="AUTHOR" content="" />
     <meta name="Copyright" content="" />
-    <meta http-equiv="Content-Language" content="en" />
+    <meta http-equiv="Content-Language" content="${.lang}" />
     <style type="text/css">
         @import url(css/style.css);
     </style>
@@ -43,20 +43,26 @@
                 <#assign columnIndex=0>
 
                 <#list class.numberOfDependencies as dependCount>
-                    <#if ("${dependCount}"?length > 0)>
-                        <#if "${dependCount}"?ends_with("C")>
-                            <td class="cycle" title="${names[columnIndex]} has cycle dependency with ${names[rowIndex]}">
-                                ${dependCount}
-                            </td>
+                    <#if (columnIndex == class.positionIndex-1)>
+                        <td class="diagonal" title="${names[columnIndex]}">
+                            ${dependCount}
+                        </td>
+                    <#else>
+                        <#if ("${dependCount}"?length > 0)>
+                            <#if "${dependCount}"?ends_with("C")>
+                                <td class="cycle" title="${names[columnIndex]} has cycle dependency with ${names[rowIndex]}">
+                                    ${dependCount}
+                                </td>
+                            <#else>
+                                <td title="${names[columnIndex]} uses ${names[rowIndex]}">
+                                    ${dependCount}
+                                </td>
+                            </#if>
                         <#else>
-                            <td title="${names[columnIndex]} uses ${names[rowIndex]}">
+                            <td>
                                 ${dependCount}
                             </td>
                         </#if>
-                    <#else>
-                        <td>
-                            ${dependCount}
-                        </td>
                     </#if>
                     <#assign columnIndex=columnIndex +1>
                 </#list>
