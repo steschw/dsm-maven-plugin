@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -49,7 +50,13 @@ class DsmHtmlWriter {
   private final boolean obfuscatePackageNames;
 
   /**
+   * Freemarker configuration
+   */
+  private final Configuration configuration;
+
+  /**
    * @param aReportSiteDirectory
+   * @param obfuscate
    */
   DsmHtmlWriter(final String aReportSiteDirectory, final boolean obfuscate) {
 
@@ -62,6 +69,17 @@ class DsmHtmlWriter {
     reportSiteDirectory = aReportSiteDirectory;
 
     new File(reportSiteDirectory).mkdirs();
+
+    configuration = createConfiguration();
+  }
+
+  private static Configuration createConfiguration() {
+    final Configuration cfg = new Configuration(Configuration.VERSION_2_3_0);
+    cfg.setClassForTemplateLoading(DsmHtmlWriter.class, File.separator + "templates");
+    cfg.setDefaultEncoding("UTF-8");
+    cfg.setOutputEncoding("UTF-8");
+    cfg.setLocale(Locale.ENGLISH);
+    return cfg;
   }
 
   /**
@@ -70,14 +88,11 @@ class DsmHtmlWriter {
    * @return
    * @throws Exception
    */
-  private static ByteArrayOutputStream renderTemplate(final Map<String, Object> aDataModel,
+  private ByteArrayOutputStream renderTemplate(final Map<String, Object> aDataModel,
       final String aTemplateName)
       throws Exception {
 
-    final Configuration cfg = new Configuration(Configuration.VERSION_2_3_0);
-    cfg.setClassForTemplateLoading(DsmHtmlWriter.class, File.separator + "templates");
-
-    final Template tpl = cfg.getTemplate(aTemplateName);
+    final Template tpl = configuration.getTemplate(aTemplateName);
 
     final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
     final Writer outputStreamWriter = new OutputStreamWriter(outputStream);

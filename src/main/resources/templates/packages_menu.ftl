@@ -2,14 +2,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
     <title>Packages</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta name="ROBOTS" content="index,follow" />
-    <meta name="TITLE" content="" />
-    <meta name="DESCRIPTION" content="" />
-    <meta name="KEYWORDS" content="" />
-    <meta name="AUTHOR" content="" />
-    <meta name="Copyright" content="" />
+    <meta http-equiv="Content-Type" content="text/html; charset=${.output_encoding}" />
     <meta http-equiv="Content-Language" content="${.lang}" />
+    <meta name="robots" content="index,follow" />
     <style type="text/css">
         @import url(css/style.css);
     </style>
