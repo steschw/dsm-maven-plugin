@@ -74,7 +74,7 @@ class DsmHtmlWriter {
       final String aTemplateName)
       throws Exception {
 
-    final Configuration cfg = new Configuration();
+    final Configuration cfg = new Configuration(Configuration.VERSION_2_3_0);
     cfg.setClassForTemplateLoading(DsmHtmlWriter.class, File.separator + "templates");
 
     final Template tpl = cfg.getTemplate(aTemplateName);
