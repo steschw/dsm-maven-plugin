@@ -10,34 +10,45 @@
     </style>
 </head>
 <body>
+
     <h1>
         DSM Report -
         <img src="./images/package.png" alt="" class="" />
         <a href="./all_packages.html" title="" target="summary" class="">${title}</a>
     </h1>
+
     <table cellspacing="0" cellpadding="0">
-        <tr>
-            <td></td>
-            <td></td>
+        <colgroup>
+            <col/>
+            <col/>
+        </colgroup>
+        <colgroup>
             <#list rows as i>
-                <td class="packageName_cols" title="${i.name}">${i.positionIndex}</td>
+                <col class="${i?item_parity}"/>
+            </#list>
+        </colgroup>
+        <tr>
+            <th></th>
+            <th></th>
+            <#list rows as i>
+                <th class="packageName_cols" title="${i.name}">${i.positionIndex}</th>
             </#list>
         </tr>
 
         <#assign rowIndex=0>
 
         <#list rows as package>
-            <tr>
-                <td class="packageName_rows">
+            <tr class="${package?item_parity}">
+                <th class="packageName_rows">
                     <img src="./images/package.png"	alt="" class="" />
                     <a href="${package.name}.html" title="${package.name}" target="" class="">
                         ${package.obfuscatedPackageName}
                     </a>
                     (${numberOfClasses[rowIndex]})
-                </td>
-                <td class="packageNumber_rows">
+                </th>
+                <th class="packageNumber_rows">
                     ${package.positionIndex}
-                </td>
+                </th>
 
                 <#assign columnIndex=0>
 

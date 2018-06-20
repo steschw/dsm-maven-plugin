@@ -24,7 +24,6 @@ ul {
     margin: 0 0 5px 10px;
     padding: 0;
 }
-
 li {
     font-family: Verdana, Helvetica, Arial, sans-serif;
     font-size: 12px;
@@ -35,7 +34,7 @@ li {
 }
 
 table {
-    background-color: #f0f0f0;
+    background-color: #fff;
     border: solid 1px #000;
     font-family: Verdana, Helvetica, Arial, sans-serif;
     font-size: 11px;
@@ -55,7 +54,6 @@ th {
     padding: 2px;
 }
 td {
-    background-color: #ddd;
     border: solid 0 #000;
     border-bottom: solid 1px #fff;
     border-left: solid 1px #fff;
@@ -67,9 +65,14 @@ td {
     padding: 2px;
     text-align: center;
 }
+col.even,
+tr.even {
+	background-color: rgba(224, 224, 224, 0.4)
+}
 
-.cycle {
-    color: #f00;
+td.cycle {
+	background-color: rgba(224, 0, 0, 0.6);
+    color: #fff;
 }
 
 #first-row {

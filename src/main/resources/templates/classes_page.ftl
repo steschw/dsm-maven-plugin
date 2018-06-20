@@ -10,6 +10,7 @@
     </style>
 </head>
 <body>
+
     <h1>
         DSM Report -
         <img src="./images/package.png" alt="" class="" />
@@ -17,23 +18,33 @@
         <img src="./images/package.png" alt="" class="" />
         ${title}
     </h1>
+
     <table cellspacing="0" cellpadding="0">
-        <tr>
-            <td></td>
-            <td></td>
+        <colgroup>
+            <col/>
+            <col/>
+        </colgroup>
+        <colgroup>
             <#list rows as i>
-            <td class="packageName_cols" title="${i.name}">${i.positionIndex}</td>
+                <col class="${i?item_parity}"/>
+            </#list>
+        </colgroup>
+        <tr>
+            <th></th>
+            <th></th>
+            <#list rows as i>
+                <th class="packageName_cols" title="${i.name}">${i.positionIndex}</th>
             </#list>
         </tr>
 
         <#assign rowIndex=0>
         <#list rows as class>
-            <tr>
-                <td class="packageName_rows">
+            <tr class="${class?item_parity}">
+                <th class="packageName_rows">
                     <img src="./images/class.png" alt="${class.name}" class="" />
                     ${class.name}
-                </td>
-                <td class="packageNumber_rows">${class.positionIndex}</td>
+                </th>
+                <th class="packageNumber_rows">${class.positionIndex}</th>
 
                 <#assign columnIndex=0>
 
@@ -59,7 +70,7 @@
                             </td>
                         </#if>
                     </#if>
-                    <#assign columnIndex=columnIndex +1>
+                    <#assign columnIndex=columnIndex + 1>
                 </#list>
             </tr>
             <#assign rowIndex=rowIndex + 1>

@@ -10,13 +10,22 @@
     </style>
 </head>
 <body>
+
     <h1>
         DSM Report -
         <img src="./images/package.png" alt="" class="" />
         <a href="./all_packages.html" title="" target="summary" class="">${title}</a>
     </h1>
-    <table cellspacing="0" cellpadding="0">
 
+    <table cellspacing="0" cellpadding="0">
+        <colgroup>
+            <col/>
+        </colgroup>
+        <colgroup>
+            <#list rows as package>
+                <col class="${package?item_parity}"/>
+            </#list>
+        </colgroup>
         <tr id="first-row">
             <th></th>
             <#list rows as package>
@@ -29,9 +38,10 @@
                 </th>
             </#list>
         </tr>
+
         <#assign rowIndex=0>
         <#list rows as package>
-            <tr>
+            <tr class="${package?item_parity}">
                 <th class="packageName_rows" title="${package.name}">
                     <img src="./images/package.png"	alt="" class="" />
                     <a href="${package.name}.html" target="" class="">
@@ -64,10 +74,10 @@
                             </td>
                         </#if>
                     </#if>
-                    <#assign columnIndex=columnIndex +1>
+                    <#assign columnIndex=columnIndex + 1>
                 </#list>
             </tr>
-        <#assign rowIndex=rowIndex + 1>
+            <#assign rowIndex=rowIndex + 1>
         </#list>
     </table>
 </body>
