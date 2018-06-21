@@ -37,16 +37,19 @@
             </#list>
         </tr>
 
-        <#assign rowIndex=0>
+        <#assign rowIndex = 0>
+
         <#list rows as class>
             <tr class="${class?item_parity}">
                 <th class="packageName_rows">
-                    <img src="./images/class.png" alt="${class.name}" class="" />
+                    <img src="./images/class.png" alt="Class" />
                     ${class.name}
                 </th>
-                <th class="packageNumber_rows">${class.positionIndex}</th>
+                <th class="packageNumber_rows">
+                    ${class.positionIndex}
+                </th>
 
-                <#assign columnIndex=0>
+                <#assign columnIndex = 0>
 
                 <#list class.numberOfDependencies as dependCount>
                     <#if (columnIndex == class.positionIndex-1)>

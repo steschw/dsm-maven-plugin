@@ -31,7 +31,7 @@
             <#list rows as package>
                 <th title="${package.name}">
                     <span class="vertical_text">
-                        <a href="${package.name}.html" target="" class="">
+                        <a href="${package.name}.html">
                             ${package.obfuscatedPackageName}
                         </a>
                     </span>
@@ -39,18 +39,17 @@
             </#list>
         </tr>
 
-        <#assign rowIndex=0>
+        <#assign rowIndex = 0>
+
         <#list rows as package>
             <tr class="${package?item_parity}">
                 <th class="packageName_rows" title="${package.name}">
-                    <img src="./images/package.png"	alt="" class="" />
-                    <a href="${package.name}.html" target="" class="">
-                        ${package.obfuscatedPackageName}
-                    </a>
-                    (${numberOfClasses[rowIndex]})
+                    <img src="./images/package.png"	alt="Package"/>
+                    <a href="${package.name}.html">${package.obfuscatedPackageName}</a>
+                    <span class="numberOfClasses" title="${numberOfClasses[rowIndex]} classes">(${numberOfClasses[rowIndex]})</span>
                 </th>
 
-                <#assign columnIndex=0>
+                <#assign columnIndex = 0>
 
                 <#list package.numberOfDependencies as dependCount>
                     <#if (columnIndex == package.positionIndex-1)>

@@ -131,3 +131,9 @@ td.cycle {
     -ms-user-select: none;
     -webkit-user-select: none;
 }
+
+.numberOfClasses {
+    color: #888;
+    font-size: 80%;
+    font-style: italic;
+}
