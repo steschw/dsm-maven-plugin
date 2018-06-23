@@ -1,41 +1,39 @@
 package org.sevntu.maven.plugin.dsm;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
 
 public class DsmRowModelTest {
 
   @Test
   public void dsmRowModelTest() {
-    List<String> numberOfDependencies = new ArrayList<String>();
-    numberOfDependencies.add("1");
-    numberOfDependencies.add("2");
-    DsmRowModel dsmRowData = new DsmRowModel(1, "row name", "", numberOfDependencies);
+    final List<DsmCellModel> cells = new ArrayList<>();
+    cells.add(new DsmCellModel(true, 1, false));
+    cells.add(new DsmCellModel(true, 2, false));
+    final DsmRowModel dsmRowData = new DsmRowModel(1, "row name", "", cells);
 
-    assertTrue("row name".equals(dsmRowData.getName()));
-    assertTrue("1".equals(dsmRowData.getNumberOfDependencies().get(0)));
-    assertTrue("2".equals(dsmRowData.getNumberOfDependencies().get(1)));
+    assertEquals("row name", dsmRowData.getName());
+    assertEquals(1, dsmRowData.getCells().get(0).getDependencyCount());
+    assertEquals(2, dsmRowData.getCells().get(1).getDependencyCount());
   }
 
-    @Test
+  @Test
   public void testObfuscation() {
-    DsmRowModel rowModel = new DsmRowModel(1, "com.puppycrawl.tools.checkstyle.checks.coding", "c.p.t.c.c.coding",
-        Collections.EMPTY_LIST);
+    final DsmRowModel rowModel = new DsmRowModel(1, "com.puppycrawl.tools.checkstyle.checks.coding",
+        "c.p.t.c.c.coding", Collections.emptyList());
     assertEquals("c.p.t.c.c.coding", rowModel.getObfuscatedPackageName());
-    }
+  }
 
   @Test
   public void testCutNames() {
-    DsmRowModel rowModel = new DsmRowModel(1, "com.puppycrawl.tools.checkstyle.checks.coding",
-        "...puppycrawl.tools.checkstyle.checks.coding",
-        Collections.EMPTY_LIST);
+    final DsmRowModel rowModel = new DsmRowModel(1, "com.puppycrawl.tools.checkstyle.checks.coding",
+        "...puppycrawl.tools.checkstyle.checks.coding", Collections.emptyList());
     assertEquals("...puppycrawl.tools.checkstyle.checks.coding", rowModel.getObfuscatedPackageName());
   }
 

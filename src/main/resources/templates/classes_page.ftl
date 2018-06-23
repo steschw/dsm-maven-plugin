@@ -1,3 +1,4 @@
+<#import "cell.ftl" as cell>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
@@ -53,32 +54,14 @@
 
                 <#assign columnIndex = 0>
 
-                <#list class.numberOfDependencies as dependCount>
-                    <#if (columnIndex == class.positionIndex-1)>
-                        <td class="diagonal" title="${names[columnIndex]}">
-                            ${dependCount}
-                        </td>
-                    <#else>
-                        <#if ("${dependCount}"?length > 0)>
-                            <#if "${dependCount}"?ends_with("C")>
-                                <td class="cycle" title="${names[columnIndex]} has cycle dependency with ${names[rowIndex]}">
-                                    ${dependCount}
-                                </td>
-                            <#else>
-                                <td title="${names[columnIndex]} uses ${names[rowIndex]}">
-                                    ${dependCount}
-                                </td>
-                            </#if>
-                        <#else>
-                            <td>
-                                ${dependCount}
-                            </td>
-                        </#if>
-                    </#if>
+                <#list class.cells as c>
+                    <@cell.render cell=c rowName=names[rowIndex] colName=names[columnIndex]/>
+
                     <#assign columnIndex=columnIndex + 1>
                 </#list>
+
             </tr>
-            <#assign rowIndex=rowIndex + 1>
+            <#assign rowIndex = rowIndex + 1>
         </#list>
 
     </table>

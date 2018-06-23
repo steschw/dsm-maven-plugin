@@ -177,13 +177,14 @@ class DsmHtmlWriter {
       numberOfClassesInPackage[packageIndex] = dsmRow.getDependee().getContentCount();
 
       final String truncatedPackageName = truncatePackageName(packageName, 20);
-      final List<String> dependenciesNumbers = new ArrayList<>();
+      final List<DsmCellModel> cells = new ArrayList<>();
       for (final DsmCell dep : dsmRow.getCells()) {
-        dependenciesNumbers.add(formatDependency(dep, aAnalysisResult));
+        final boolean isCycle = !aAnalysisResult.getViolations(dep.getDependency(), Severity.error).isEmpty();
+        cells.add(new DsmCellModel(dep.isValid(), dep.getDependencyWeight(), isCycle));
       }
 
       final DsmRowModel rowData = new DsmRowModel(packageIndex + 1, packageName,
-          truncatedPackageName, dependenciesNumbers);
+          truncatedPackageName, cells);
       dsmRowsData.add(rowData);
     }
 
@@ -209,30 +210,6 @@ class DsmHtmlWriter {
     try (final ByteArrayOutputStream outputStream = renderTemplate(aDataModel, aTemplateName)) {
       writeStreamToFile(outputStream, aFileName);
     }
-  }
-
-  /**
-   * Analyzing dependency
-   *
-   * @param aDep
-   *            Count of dependency (number, 'x', or cycle)
-   * @param aAnalysisResult
-   *            Analysis structure
-   * @return Count of dependency
-   */
-  private static String formatDependency(final DsmCell aDep, final AnalysisResult aAnalysisResult) {
-    String dependencyType;
-    if (!aDep.isValid()) {
-      dependencyType = "x";
-    } else if (aDep.getDependencyWeight() == 0) {
-      dependencyType = "";
-    } else {
-      dependencyType = Integer.toString(aDep.getDependencyWeight());
-      if (!aAnalysisResult.getViolations(aDep.getDependency(), Severity.error).isEmpty()) {
-        dependencyType = dependencyType + "C";
-      }
-    }
-    return dependencyType;
   }
 
   private String truncatePackageName(final String name, final int length) {

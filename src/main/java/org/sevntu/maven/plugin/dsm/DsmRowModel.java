@@ -12,26 +12,27 @@ public class DsmRowModel {
   /**
    * Package or class name
    */
-  private String name;
+  private final String name;
 
-  private String obfuscatedPackageName;
+  private final String obfuscatedPackageName;
 
   /**
-   * List of dependencies. Contain number of dependencies with other classes/packages
+   * List of cells. Contain number of cells with other classes/packages
    */
-  private List<String> numberOfDependencies;
+  private final List<DsmCellModel> cells;
 
   /**
    * Package or class index in dsm
    */
   private int positionIndex;
 
-  public DsmRowModel(int aPositionIndex, String aName, String obfuscatedPackageName,
-      List<String> aNumberOfDependencies) {
-    positionIndex = aPositionIndex;
-    name = aName;
+  public DsmRowModel(final int positionIndex,
+      final String name, final String obfuscatedPackageName,
+      final List<DsmCellModel> cells) {
+    this.positionIndex = positionIndex;
+    this.name = name;
     this.obfuscatedPackageName = obfuscatedPackageName;
-    numberOfDependencies = aNumberOfDependencies;
+    this.cells = cells;
   }
 
   /**
@@ -49,10 +50,10 @@ public class DsmRowModel {
   }
 
   /**
-   * @return the numberOfDependencies
+   * @return the cells
    */
-  public List<String> getNumberOfDependencies() {
-    return numberOfDependencies;
+  public List<DsmCellModel> getCells() {
+    return cells;
   }
 
   /**
