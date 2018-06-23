@@ -1,10 +1,10 @@
 package org.sevntu.maven.plugin.dsm;
 
+import org.junit.Assert;
+import org.junit.Test;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import junit.framework.Assert;
-
-import org.junit.Test;
 
 
 public class DsmReportEngineTest {
@@ -12,7 +12,7 @@ public class DsmReportEngineTest {
   @Test
   public void setDsmReportSiteDirectoryTest() {
     Exception ex = null;
-    DsmReportEngine dsmReport = new DsmReportEngine();
+    final DsmReportEngine dsmReport = new DsmReportEngine();
     try {
       dsmReport.setOutputDirectory(null);
       Assert.fail();
@@ -27,7 +27,7 @@ public class DsmReportEngineTest {
   @Test
   public void setSourceDirectoryTest() {
     Exception ex = null;
-    DsmReportEngine dsmReport = new DsmReportEngine();
+    final DsmReportEngine dsmReport = new DsmReportEngine();
     try {
       dsmReport.setSourceDirectory(null);
       Assert.fail();
