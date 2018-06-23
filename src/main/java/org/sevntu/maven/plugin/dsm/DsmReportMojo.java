@@ -44,14 +44,14 @@ public class DsmReportMojo extends AbstractMavenReport {
   /**
    * Obfuscate package names.
    *
-   * @parameter expression="${obfuscatePackageNames}" default-value="false"
+   * @parameter property="obfuscatePackageNames" default-value="false"
    */
   private boolean obfuscatePackageNames;
 
   /**
    * Skip plugin execution completely.
    *
-   * @parameter expression="${dsm.skip}" default-value="false"
+   * @parameter property="dsm.skip" default-value="false"
    */
   private boolean skip;
 
