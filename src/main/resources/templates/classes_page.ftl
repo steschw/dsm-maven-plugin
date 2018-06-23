@@ -19,7 +19,7 @@
         ${title}
     </h1>
 
-    <table cellspacing="0" cellpadding="0">
+    <table>
         <colgroup>
             <col/>
             <col/>
@@ -33,7 +33,9 @@
             <th></th>
             <th></th>
             <#list rows as i>
-                <th class="packageName_cols" title="${i.name}">${i.positionIndex}</th>
+                <th class="packageNumber_cols" title="${i.name}">
+                    ${i.positionIndex}
+                </th>
             </#list>
         </tr>
 
@@ -43,7 +45,7 @@
             <tr class="${class?item_parity}">
                 <th class="packageName_rows">
                     <img src="./images/class.png" alt="Class" />
-                    ${class.name}
+                    <span>${class.name}</span>
                 </th>
                 <th class="packageNumber_rows">
                     ${class.positionIndex}

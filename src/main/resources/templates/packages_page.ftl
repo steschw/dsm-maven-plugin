@@ -17,7 +17,7 @@
         <a href="./all_packages.html" title="" target="summary" class="">${title}</a>
     </h1>
 
-    <table cellspacing="0" cellpadding="0">
+    <table>
         <colgroup>
             <col/>
             <col/>
@@ -31,7 +31,9 @@
             <th></th>
             <th></th>
             <#list rows as i>
-                <th class="packageName_cols" title="${i.name}">${i.positionIndex}</th>
+                <th class="packageNumber_cols" title="${i.name}">
+                    ${i.positionIndex}
+                </th>
             </#list>
         </tr>
 

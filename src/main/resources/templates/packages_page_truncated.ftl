@@ -17,7 +17,7 @@
         <a href="./all_packages.html" title="" target="summary" class="">${title}</a>
     </h1>
 
-    <table cellspacing="0" cellpadding="0">
+    <table>
         <colgroup>
             <col/>
         </colgroup>
@@ -26,15 +26,13 @@
                 <col class="${package?item_parity}"/>
             </#list>
         </colgroup>
-        <tr id="first-row">
+        <tr>
             <th></th>
             <#list rows as package>
-                <th title="${package.name}">
-                    <span class="vertical_text">
-                        <a href="${package.name}.html">
-                            ${package.obfuscatedPackageName}
-                        </a>
-                    </span>
+                <th class="packageName_cols" title="${package.name}">
+                    <a href="${package.name}.html">
+                        ${package.obfuscatedPackageName}
+                    </a>
                 </th>
             </#list>
         </tr>

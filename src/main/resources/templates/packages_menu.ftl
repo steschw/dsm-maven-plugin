@@ -10,18 +10,19 @@
     </style>
 </head>
 <body>
-    <b>Packages:</b>
+    <h1>Packages:</h1>
+
     <ul>
         <li>
-            <a title="" target="summary" href="./all_packages.html"	class="">
-                <img src="./images/package.png" alt="" class="" />
+            <a title="" target="summary" href="./all_packages.html">
+                <img src="./images/package.png" alt="Package"/>
                 all_packages
             </a>
         </li>
         <#list aPackageNames as package>
         <li>
-            <a title="" target="summary" href="./${package}.html" class="">
-                <img src="./images/package.png" alt="" class="" />
+            <a title="" target="summary" href="./${package}.html">
+                <img src="./images/package.png" alt="Package"/>
                 ${package}
             </a>
         </li>

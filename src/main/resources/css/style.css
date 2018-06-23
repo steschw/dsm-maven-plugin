@@ -1,5 +1,8 @@
-h1 {
+body {
     font-family: Verdana, Helvetica, Arial, sans-serif;
+}
+
+h1 {
     font-size: 18px;
 }
 
@@ -25,7 +28,6 @@ ul {
     padding: 0;
 }
 li {
-    font-family: Verdana, Helvetica, Arial, sans-serif;
     font-size: 12px;
     list-style: none;
     margin: 0;
@@ -35,35 +37,31 @@ li {
 
 table {
     background-color: #fff;
-    border: solid 1px #000;
-    font-family: Verdana, Helvetica, Arial, sans-serif;
+    border-collapse: collapse;
     font-size: 11px;
     margin: 0;
     padding: 0;
 }
 th {
-    background-color: #ddd;
-    border: solid 0 #000;
-    border-bottom: solid 1px #fff;
-    border-left: solid 1px #fff;
+    background-color: #fff;
     color: #000;
     font-weight: bold;
+    height: 26px;
     margin: 0;
-    min-height: 18px;
-    min-width: 18px;
-    padding: 2px;
+    min-width: 26px;
+    padding: 0;
+    width: 26px;
 }
 td {
-    border: solid 0 #000;
-    border-bottom: solid 1px #fff;
-    border-left: solid 1px #fff;
+    border: 1px solid #fff;
     color: #000;
     font-weight: bold;
+    height: 26px;
     margin: 0;
-    min-height: 18px;
-    min-width: 18px;
-    padding: 2px;
+    min-width: 26px;
+    padding: 0;
     text-align: center;
+    width: 26px;
 }
 col.even,
 tr.even {
@@ -75,65 +73,67 @@ td.cycle {
     color: #fff;
 }
 
-#first-row {
-    height: 170px;
-    text-align: left;
-    vertical-align: bottom;
-}
-
 .packageName_rows {
-    background-color: #ddd;
-    border: 0;
-    border-right: solid 1px #000;
-    border-top: solid 1px #000;
+    background-color: #e8eaf6;
+    border: 1px solid #fff;
     color: #000;
-    font-family: Verdana, Helvetica, Arial, sans-serif;
     font-size: 11px;
     font-weight: bold;
+    padding-left: 0.8em;
+    padding-right: 0.8em;
     text-align: left;
     white-space: nowrap;
 }
 
+.packageName_rows * {
+    vertical-align: middle;
+}
+
 .packageNumber_rows {
-    background-color: #bbd;
-    border: 0;
-    border-right: solid 1px #000;
-    border-top: solid 1px #000;
-    color: #000;
+    background-color: #7986cb;
+    border: 1px solid #fff;
+    color: #e8eaf6;
     font-weight: bold;
-    text-align: center;
 }
 
 .packageName_cols {
-    background-color: #bbd;
-    border: 0;
-    border-bottom: solid 1px #000;
-    border-left: solid 1px #000;
-    color: #000;
+    background-color: #e8eaf6;
+    border: 1px solid #fff;
+    color: #e8eaf6;
     font-weight: bold;
+    height: 170px;
     text-align: center;
+    vertical-align: bottom;
 }
 
-.vertical_text {
+.packageName_cols a {
     display: inline-block;
-    padding-bottom: 5px;
-    transform: rotate(270deg);
-    -ms-transform: rotate(270deg);
-    -webkit-transform: rotate(270deg);
-    width: 20px;
+    padding-bottom: 0.8em;
+    padding-top: 0.8em;
+    -ms-transform: rotate(-90deg);
+    -webkit-transform: rotate(-90deg);
+    transform: rotate(-90deg);
+    width: 26px;
+}
+
+.packageNumber_cols {
+    background-color: #7986cb;
+    border: 1px solid #fff;
+    color: #e8eaf6;
+    font-weight: bold;
 }
 
 .diagonal {
     background-color: #aaa;
     color: transparent;
-    user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     -webkit-user-select: none;
+    user-select: none;
 }
 
 .numberOfClasses {
-    color: #888;
+    color: #999;
     font-size: 80%;
     font-style: italic;
 }
