@@ -190,13 +190,8 @@ public class DsmReportEngine {
    */
   private void printDsmForPackages(final Dsm aDsm, final AnalysisResult aAnalysisResult)
       throws Exception {
-    if (obfuscatePackageNames) {
-      dsmHtmlWriter.printDsm(aDsm, aAnalysisResult, "all_packages",
-          DsmHtmlWriter.FTL_PACKAGES_PAGE_TRUNC);
-    } else {
-      dsmHtmlWriter.printDsm(aDsm, aAnalysisResult, "all_packages",
-          DsmHtmlWriter.FTL_PACKAGES_PAGE);
-    }
+    dsmHtmlWriter.printDsm(aDsm, aAnalysisResult, "all_packages",
+        DsmHtmlWriter.FTL_PACKAGES_PAGE, !obfuscatePackageNames, obfuscatePackageNames);
   }
 
   /**
@@ -238,7 +233,7 @@ public class DsmReportEngine {
       final Dsm dsm = new DsmEngine(dependencyGraph).createDsm();
 
       dsmHtmlWriter.printDsm(dsm, aAnalysisResult, aPackageNames.get(packageIndex),
-          DsmHtmlWriter.FTL_CLASSES_PAGE);
+          DsmHtmlWriter.FTL_CLASSES_PAGE, true, false);
     }
   }
 

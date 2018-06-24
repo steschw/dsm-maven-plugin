@@ -21,22 +21,42 @@
     <table>
         <colgroup>
             <col/>
-            <col/>
+            <#if showNumbers>
+                <col/>
+            </#if>
         </colgroup>
         <colgroup>
-            <#list rows as i>
-                <col class="${i?item_parity}"/>
+            <#list rows as package>
+                <col class="${package?item_parity}"/>
             </#list>
         </colgroup>
-        <tr>
-            <th></th>
-            <th></th>
-            <#list rows as i>
-                <th class="packageNumber_cols" title="${i.name}">
-                    ${i.positionIndex}
-                </th>
-            </#list>
-        </tr>
+
+        <#if showColNames>
+            <tr>
+                <th></th>
+                <#if showNumbers>
+                    <th></th>
+                </#if>
+                <#list rows as package>
+                    <th class="packageName_cols" title="${package.name}">
+                        <a href="${package.name}.html">
+                            ${package.obfuscatedPackageName}
+                        </a>
+                    </th>
+                </#list>
+            </tr>
+        </#if>
+        <#if showNumbers>
+            <tr>
+                <th></th>
+                <th></th>
+                <#list rows as package>
+                    <th class="packageNumber_cols" title="${package.name}">
+                        ${package.positionIndex}
+                    </th>
+                </#list>
+            </tr>
+        </#if>
 
         <#assign rowIndex = 0>
 
@@ -47,9 +67,11 @@
                     <a href="${package.name}.html">${package.obfuscatedPackageName}</a>
                     <span class="numberOfClasses" title="${numberOfClasses[rowIndex]} classes">(${numberOfClasses[rowIndex]})</span>
                 </th>
-                <th class="packageNumber_rows">
-                    ${package.positionIndex}
-                </th>
+                <#if showNumbers>
+                    <th class="packageNumber_rows">
+                        ${package.positionIndex}
+                    </th>
+                </#if>
 
                 <#assign columnIndex = 0>
 
@@ -60,7 +82,9 @@
                 </#list>
 
             </tr>
+
             <#assign rowIndex=rowIndex + 1>
+
         </#list>
     </table>
 </body>

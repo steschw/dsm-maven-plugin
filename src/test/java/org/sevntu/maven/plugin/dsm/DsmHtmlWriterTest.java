@@ -44,7 +44,7 @@ public class DsmHtmlWriterTest {
     final DsmHtmlWriter dsmHtmlWriter = new DsmHtmlWriter("target/testDir", false);
     Exception ex = null;
     try {
-      dsmHtmlWriter.printDsm(null, null, null, null);
+      dsmHtmlWriter.printDsm(null, null, null, null, false, false);
       Assert.fail();
     } catch (Exception e) {
       ex = e;
@@ -54,7 +54,7 @@ public class DsmHtmlWriterTest {
 
     ex = null;
     try {
-      dsmHtmlWriter.printDsm(new Dsm(new ArrayList<DsmRow>()), null, null, null);
+      dsmHtmlWriter.printDsm(new Dsm(new ArrayList<DsmRow>()), null, null, null, false, false);
       Assert.fail();
     } catch (Exception e) {
       ex = e;
@@ -66,7 +66,7 @@ public class DsmHtmlWriterTest {
     try {
       dsmHtmlWriter.printDsm(new Dsm(new ArrayList<>()), new AnalysisResult(
           new HashMap<>(), new HashSet<>(), true),
-          null, null);
+          null, null, false, false);
       Assert.fail();
     } catch (Exception e) {
       ex = e;

@@ -39,7 +39,6 @@ class DsmHtmlWriter {
   public final static String CSS_FOLDER_NAME = "css";
   public final static String FTL_CLASSES_PAGE = "classes_page.ftl";
   public final static String FTL_PACKAGES_PAGE = "packages_page.ftl";
-  public final static String FTL_PACKAGES_PAGE_TRUNC = "packages_page_truncated.ftl";
   public final static String FTL_PACKAGES_MENU = "packages_menu.ftl";
 
   /**
@@ -171,7 +170,7 @@ class DsmHtmlWriter {
    *            Name of package
    */
   public void printDsm(final Dsm aDsm, final AnalysisResult aAnalysisResult, final String aName,
-      final String templateName)
+      final String templateName, final boolean showNumbers, final boolean showColNames)
       throws Exception {
 
     if (aDsm == null) {
@@ -217,6 +216,8 @@ class DsmHtmlWriter {
     }
 
     final Map<String, Object> dataModel = new HashMap<>();
+    dataModel.put("showNumbers", showNumbers);
+    dataModel.put("showColNames", showColNames);
     dataModel.put("title", aName);
     dataModel.put("rows", dsmRowsData);
     dataModel.put("names", names);
