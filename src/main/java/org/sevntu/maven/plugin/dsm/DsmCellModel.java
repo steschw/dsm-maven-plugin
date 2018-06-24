@@ -6,12 +6,15 @@ public class DsmCellModel {
 
   private final int dependencyCount;
 
-  private final boolean cycle;
+  private final int cycleCount;
 
-  public DsmCellModel(final boolean valid, final int dependencyCount, final boolean cycle) {
+  private final double dependencyRatio;
+
+  public DsmCellModel(final boolean valid, final int dependencyCount, final int cycleCount, final double dependencyRatio) {
     this.valid = valid;
     this.dependencyCount = dependencyCount;
-    this.cycle = cycle;
+    this.cycleCount = cycleCount;
+    this.dependencyRatio = dependencyRatio;
   }
 
   public boolean isValid() {
@@ -22,8 +25,12 @@ public class DsmCellModel {
     return dependencyCount;
   }
 
-  public boolean isCycle() {
-    return cycle;
+  public int getCycleCount() {
+    return cycleCount;
+  }
+
+  public double getDependencyRatio() {
+    return dependencyRatio;
   }
 
   @Override
@@ -33,7 +40,7 @@ public class DsmCellModel {
     } else if (dependencyCount == 0) {
       return "";
     } else {
-      return dependencyCount + (cycle ? "C" : "");
+      return dependencyCount + ((cycleCount > 0) ? "C" : "");
     }
   }
 

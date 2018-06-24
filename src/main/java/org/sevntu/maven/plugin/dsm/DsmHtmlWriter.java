@@ -4,6 +4,7 @@ import com.google.common.base.Strings;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import org.hjug.dtangler.core.analysisresult.AnalysisResult;
+import org.hjug.dtangler.core.analysisresult.Violation;
 import org.hjug.dtangler.core.analysisresult.Violation.Severity;
 import org.hjug.dtangler.core.dsm.Dsm;
 import org.hjug.dtangler.core.dsm.DsmCell;
@@ -21,6 +22,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.OptionalInt;
+import java.util.Set;
 
 /**
  * Generate site content and write to HTML file.
@@ -142,6 +145,22 @@ class DsmHtmlWriter {
   }
 
   /**
+   * Calculate max count of dependencies in Dsm structure
+   *
+   * @param dsm
+   *            Dsm structure
+   * @return
+   *            Max count
+   */
+  private static int getMaxDependencyCount(final Dsm dsm) {
+    final OptionalInt maxCount = dsm.getRows().stream()
+        .flatMap(row -> row.getCells().stream())
+        .mapToInt(DsmCell::getDependencyWeight)
+        .max();
+    return maxCount.orElse(0);
+  }
+
+  /**
    * Print dependency structure matrix
    *
    * @param aDsm
@@ -169,6 +188,8 @@ class DsmHtmlWriter {
     final List<String> names = new ArrayList<>();
     final int[] numberOfClassesInPackage = new int[aDsm.getRows().size()];
 
+    final int maxDependencyCount = getMaxDependencyCount(aDsm);
+
     for (int packageIndex = 0; packageIndex < aDsm.getRows().size(); packageIndex++) {
       final DsmRow dsmRow = aDsm.getRows().get(packageIndex);
 
@@ -179,8 +200,15 @@ class DsmHtmlWriter {
       final String truncatedPackageName = truncatePackageName(packageName, 20);
       final List<DsmCellModel> cells = new ArrayList<>();
       for (final DsmCell dep : dsmRow.getCells()) {
-        final boolean isCycle = !aAnalysisResult.getViolations(dep.getDependency(), Severity.error).isEmpty();
-        cells.add(new DsmCellModel(dep.isValid(), dep.getDependencyWeight(), isCycle));
+        final int dependencyCount = dep.getDependencyWeight();
+        final Set<Violation> violations = aAnalysisResult.getViolations(dep.getDependency(), Severity.error);
+        final int cycleCount = violations.size();
+        double dependencyRatio = 0.;
+        if (maxDependencyCount != 0) {
+          dependencyRatio = (double) dependencyCount / maxDependencyCount;
+        }
+        final DsmCellModel cell = new DsmCellModel(dep.isValid(), dependencyCount, cycleCount, dependencyRatio);
+        cells.add(cell);
       }
 
       final DsmRowModel rowData = new DsmRowModel(packageIndex + 1, packageName,

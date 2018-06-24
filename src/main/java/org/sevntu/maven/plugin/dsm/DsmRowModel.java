@@ -24,7 +24,7 @@ public class DsmRowModel {
   /**
    * Package or class index in dsm
    */
-  private int positionIndex;
+  private final int positionIndex;
 
   public DsmRowModel(final int positionIndex,
       final String name, final String obfuscatedPackageName,

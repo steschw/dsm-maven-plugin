@@ -1,21 +1,17 @@
 package org.sevntu.maven.plugin.dsm;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import org.hjug.dtangler.core.analysisresult.AnalysisResult;
+import org.hjug.dtangler.core.dsm.Dsm;
+import org.hjug.dtangler.core.dsm.DsmRow;
+import org.junit.Assert;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Set;
 
-import junit.framework.Assert;
-
-import org.hjug.dtangler.core.analysisresult.AnalysisResult;
-import org.hjug.dtangler.core.analysisresult.Violation;
-import org.hjug.dtangler.core.dependencies.Dependency;
-import org.hjug.dtangler.core.dsm.Dsm;
-import org.hjug.dtangler.core.dsm.DsmRow;
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 
 public class DsmHtmlWriterTest {
@@ -45,7 +41,7 @@ public class DsmHtmlWriterTest {
 
   @Test
   public void printDsmTest() {
-        DsmHtmlWriter dsmHtmlWriter = new DsmHtmlWriter("target/testDir", false);
+    final DsmHtmlWriter dsmHtmlWriter = new DsmHtmlWriter("target/testDir", false);
     Exception ex = null;
     try {
       dsmHtmlWriter.printDsm(null, null, null, null);
@@ -68,8 +64,8 @@ public class DsmHtmlWriterTest {
 
     ex = null;
     try {
-      dsmHtmlWriter.printDsm(new Dsm(new ArrayList<DsmRow>()), new AnalysisResult(
-          new HashMap<Dependency, Set<Violation>>(), new HashSet<Violation>(), true),
+      dsmHtmlWriter.printDsm(new Dsm(new ArrayList<>()), new AnalysisResult(
+          new HashMap<>(), new HashSet<>(), true),
           null, null);
       Assert.fail();
     } catch (Exception e) {
@@ -82,7 +78,7 @@ public class DsmHtmlWriterTest {
 
   @Test
   public void printNavigateDsmPackagesTest() {
-        DsmHtmlWriter dsmHtmlWriter = new DsmHtmlWriter("target/testDir", false);
+    final DsmHtmlWriter dsmHtmlWriter = new DsmHtmlWriter("target/testDir", false);
     Exception ex = null;
     try {
       dsmHtmlWriter.printDsmPackagesNavigation(null);

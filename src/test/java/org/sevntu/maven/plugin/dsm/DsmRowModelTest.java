@@ -14,8 +14,8 @@ public class DsmRowModelTest {
   @Test
   public void dsmRowModelTest() {
     final List<DsmCellModel> cells = new ArrayList<>();
-    cells.add(new DsmCellModel(true, 1, false));
-    cells.add(new DsmCellModel(true, 2, false));
+    cells.add(new DsmCellModel(true, 1, 0, 1.));
+    cells.add(new DsmCellModel(true, 2, 0, 1.));
     final DsmRowModel dsmRowData = new DsmRowModel(1, "row name", "", cells);
 
     assertEquals("row name", dsmRowData.getName());
